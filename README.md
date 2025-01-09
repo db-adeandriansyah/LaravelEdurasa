@@ -1,29 +1,18 @@
-# Belajar Laravel
+# Belajar 1 CRUD dengan Modal dan ReactJs
 
-Ini adalah cara saya belajar Laravel dan React. Laravel sebagai _stack backend_ dan ReactJs sebagai _frontend_ nya.
+Di sesi ini kita akan belajar CRUD di Laravel dengan bantuan Modal sebagai formulir pengisiannya. Jadi, untuk menampilkan formulir CRUD kita tidak merender halaman dari sisi server (tidak dibuat di controller). Kita akan memanfaatkan _axios_ untuk proses pengiriman datanya.
 
-Sebenarnya bukan hanya Laravel dan ReactJs saja, ada banyak sekali _stack_ yang digunakan dalam proses belajar ini, di antaranya:
-* Laravel Breeze
-* TailwindCss
-* handlesUI Tailwinds
+## Alur kerja CRUD Modal
+- User membuka fitur, ditampilkan _component tabel_ yang berisi data-data inputan dan _component button_ untuk menampilkan formullir CRUD
+- fitur pertama kali pastinya tidak punya data, maka ditampilkan keterangan *belum punya data* pada _component tabelnya_
+- _component button_ untuk menambahkan data berlabel "tambah" dan ketika diklik maka akan muncul formulir (form) untuk menampilkan data
+- Setelah _client_ mengisikan data dan mengirimkannya, maka modal akan ditutup dan halaman akan menampilkan data baru di _component tabel_ nya
 
-Selain itu, untuk belajar ini sebenarnya harus menguasai beberapa basic (_pre-requesite_) untuk memahaminya. Karena saya lebih fokus dengan cara belajar berbasis proyek, maka saya merekamnya di sini.
-
-Require Aplikasi/software:
-- [x] terinstall PHP (saya menggunakan XAMPP dengan PHP 8.2)
-- [x] terinstall git
-- [x] terinstall nodeJs
-- [x] terinstall composer
-- [x] mengatur _environment path local_ di komputer kita
-
-
-Oleh karena itu, untuk proses belajar saya akan merekamnya di tiap-tiap branch yang ada di github ini. 
-
-Berikut beberapa rekam jejak hasil belajar yang telah dibuatkan:
-
-## Master (Branch)
-ini adalah branch utama dimana letak perubahan akan disimpan di sini. Di sini memungkinkan proyek ini dapat di deploy ke server
-
-## Branch lainnya
-Branch lainnya tergantung dari hasil belajar tiap-tiap prosesnya. Ketika Anda men-checkout atau berpindah branch ke branch ini maka akan ada dokumentasi hasil belajar ini
-
+## Proses Pembuatan
+### Laravel
+- buat model dengan artisan. Gunakan:
+``` php artisan make:modal -a ```
+perintah di atas selaian membuatkan file Model, juga untuk membuat controller, migration, request, policy, dll dan kebutuhan yang dibutuhkan
+- buat Route di ``` /route/fitur.php ``` (karena fitur menyediakan rute untuk). Route yang dibuat adalah get, post, put, dan delete. Buatkan _name route_ untuk masing-masing method index, store, update, destroy;
+- setiap route dipastikan melakukan _*Route Model Binding*_ dengan menuliskan nama modelnya untuk keperluan dependency
+- masih di file ``` app/Http/Controllers/FiturController.php ``` buatkan kode untuk method *index*, *store*, *update*, dan *destroy*
