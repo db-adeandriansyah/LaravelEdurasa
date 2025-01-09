@@ -6,3 +6,5 @@ Halaman adalah proses belajar membuat aplikasi dengan menggunakan Laravel sebaga
 * Breeze-ReactJs
 * Tailwind Css
 * ReactJs
+
+Silakan Anda buka Branch Master untuk melihat hasil akhir dari setiap pembelajaran
