@@ -24,9 +24,11 @@ export default function KelasTabel({kelas,parentOnUpdate,parentOnDelete}){
                                 <td className="border border-black p-2">{item.tingkat}</td>
                                 <td className="border border-black p-2">{item.jenjang}</td>
                                 <td className="border border-black p-2">{item.rombel}</td>
-                                <td className="border border-black p-2 flex justify-center gap-2">
-                                    <KelasButtonModal typeContent='form' changeData={parentOnUpdate} currentData={item} titleModal="Edit Kelas" classNameButton="bg-yellow-600">Edit</KelasButtonModal>
-                                    <KelasButtonModal typeContent='button' changeData={parentOnDelete} currentData={item}  titleModal="Hapus Kelas" classNameButton="bg-red-600">Hapus</KelasButtonModal>
+                                <td className="border border-black p-0">
+                                    <div className="flex justify-center gap-2">
+                                        <KelasButtonModal action="edit" kelas={kelas} typeContent='form' changeData={parentOnUpdate} currentData={item} titleModal="Edit Kelas" classNameButton="bg-yellow-600">Edit</KelasButtonModal>
+                                        <KelasButtonModal action="delete" kelas={kelas} typeContent='button' changeData={parentOnDelete} currentData={item}  titleModal="Hapus Kelas" classNameButton="bg-red-600">Hapus</KelasButtonModal>
+                                    </div>
                                 </td>
                             </tr>)
                         

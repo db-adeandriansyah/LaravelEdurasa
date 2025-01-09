@@ -11,7 +11,7 @@ class UpdateclassroomRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateclassroomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            
+            'klasifikasi' => ['string',' required'],
+            'tingkat' => ['string','required'],
+            'jenjang' => ['integer','required'],
+            'rombel' => ['string','nullable'],
         ];
     }
 }

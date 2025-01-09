@@ -61,7 +61,7 @@ export default function ModalForm({tapel,currentData,onChange,isDeleted,onCloseM
     function handleChangeForm(e){
         let cData = TapelValidasi(tapel, e.target.value);
         if(cData.isValid){
-            if(labelButton==='Tambah'){
+            if(labelButton === 'Tambah'){
                 setData('id','');
             }else{
                 setData('id',currentData.id)
@@ -86,7 +86,7 @@ export default function ModalForm({tapel,currentData,onChange,isDeleted,onCloseM
         }
     }
 
-    async function handleClickForm(e){
+    function handleClickForm(e){
         e.preventDefault();
 
         if(isDeleted){

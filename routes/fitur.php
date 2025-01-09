@@ -31,9 +31,9 @@ Route::middleware('auth')->group(function () {
     //setting kelas
 
     Route::get('/setting-kelas',[ClassroomController::class,'index'])->name('setting.kelas');
-    Route::post('/setting-kelas',[ClassroomController::class,'index'])->name('kelas.create');
-    Route::put('/setting-kelas/{classroom}',[ClassroomController::class,'index'])->name('kelas.update');
-    Route::delete('/setting-kelas/{classroom}',[ClassroomController::class,'index'])->name('kelas.delete');
+    Route::post('/setting-kelas',[ClassroomController::class,'store'])->name('kelas.store');
+    Route::put('/setting-kelas/{classroom}',[ClassroomController::class,'update'])->name('kelas.update');
+    Route::delete('/setting-kelas/{classroom}',[ClassroomController::class,'destroy'])->name('kelas.delete');
 
     Route::get('/setting-mapel',function(){
         return Inertia::render('Manajemen/Kelas',['title'=>'Setting']);

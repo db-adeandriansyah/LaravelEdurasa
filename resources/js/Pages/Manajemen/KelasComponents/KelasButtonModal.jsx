@@ -2,18 +2,21 @@ import Modal from "@/Components/Modal";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useState } from "react"
 import KelasForm from "./KelasForm";
+import KelasFormDelete from "./KelasFormDelete";
 
 export default function KelasButtonModal({
     classNameButton='bg-green-600',
+    kelas,
     children,
     titleModal = 'Judul Modal belum dibuat',
     typeContent,
     currentData,
     changeData,
+    action,
     ...props
     }){
     const [showModal, setShowModal] = useState(false);
-    let typeFormulir;
+
     function handleClickButton(){
         setShowModal(true);
     }
@@ -30,10 +33,16 @@ export default function KelasButtonModal({
                     <XMarkIcon onClick={closeModal} className="h-8 w-8 text-red-600" role="button"/>
                 </div>
                 {typeContent==='form'?(
-                    <KelasForm currentDataForm={currentData} onChangeData={changeData} onClose={closeModal}/>
+                    <KelasForm 
+                        kelas={kelas} 
+                        action={action}
+                        currentDataForm={currentData} 
+                        onChangeData={changeData} 
+                        onClose={closeModal}/>
 
                 ):(
-                    'Hapus nanti dulu'
+                    <KelasFormDelete kelas={kelas} currentDataForm={currentData} onChangeData={changeData} onClose={closeModal}/>
+
                 )}
             </Modal>
         </>

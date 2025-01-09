@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
+            $table->string('klasifikasi');
+            $table->string('tingkat');
+            $table->integer('jenjang');
+            $table->string('rombel')->nullable();
             $table->timestamps();
         });
     }

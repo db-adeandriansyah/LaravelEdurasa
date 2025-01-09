@@ -15,9 +15,11 @@ export default function KelasComponentSelect({...props}){
             selectedTingkat,
             handleTingkat,
             selectedJenjang,
-            handleJenjang
+            handleJenjang,
+            handleInput,
+            rombel
         } = props;
-    console.log('selectedTIngkat pertama kali',typeof(selectedTingkat))
+    console.log('selectedTIngkat pertama kali',selectedTingkat, typeof(selectedTingkat))
     return(
         <div className="border p-2">
             <ListBoxSelect 
@@ -40,7 +42,7 @@ export default function KelasComponentSelect({...props}){
                 onChangeSelected={handleJenjang}
             />
             <InputLabel htmlFor="final-rombel" value="Rombel"/>
-            <TextInput id="final-rombel" value="" onChange={(e)=>e.target.value} className="text-[10px] w-full" placeholder='Contoh: A, B, atau lainnya'/>
+            <TextInput id="final-rombel" type="text" value={rombel} onChange={handleInput} className="text-[10px] w-full" placeholder='Contoh: A, B, atau lainnya'/>
         </div>
     )
 }

@@ -16,18 +16,18 @@
     ];
     const opsiJenjang = [
         {id:'jenjang0', label:'Pilih Jenjang', kategori:'', value:''},
-        {id:'jenjang1', label:'1', kategori:'SD',   value:'1'},
-        {id:'jenjang2', label:'2', kategori:'SD', value:'2'},
-        {id:'jenjang3', label:'3', kategori:'SD', value:'3'},
-        {id:'jenjang4', label:'4', kategori:'SD', value:'4'},
-        {id:'jenjang5', label:'5', kategori:'SD', value:'5'},
-        {id:'jenjang6', label:'6', kategori:'SD', value:'6'},
-        {id:'jenjang7', label:'7', kategori:'SMP', value:'7'},
-        {id:'jenjang8', label:'8', kategori:'SMP', value:'8'},
-        {id:'jenjang9', label:'9', kategori:'SMP', value:'9'},
-        {id:'jenjang10', label:'10', kategori:'SMA', value:'10'},
-        {id:'jenjang11', label:'11', kategori:'SMA', value:'11'},
-        {id:'jenjang12', label:'12', kategori:'SMA', value:'12'},
+        {id:'jenjang1', label:'1', kategori:'SD',   value:1},
+        {id:'jenjang2', label:'2', kategori:'SD', value:2},
+        {id:'jenjang3', label:'3', kategori:'SD', value:3},
+        {id:'jenjang4', label:'4', kategori:'SD', value:4},
+        {id:'jenjang5', label:'5', kategori:'SD', value:5},
+        {id:'jenjang6', label:'6', kategori:'SD', value:6},
+        {id:'jenjang7', label:'7', kategori:'SMP', value:7},
+        {id:'jenjang8', label:'8', kategori:'SMP', value:8},
+        {id:'jenjang9', label:'9', kategori:'SMP', value:9},
+        {id:'jenjang10', label:'10', kategori:'SMA', value:10},
+        {id:'jenjang11', label:'11', kategori:'SMA', value:11},
+        {id:'jenjang12', label:'12', kategori:'SMA', value:12},
     ]
 const DATA_SETTING_KELAS = [
     {

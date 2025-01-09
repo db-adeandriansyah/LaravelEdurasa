@@ -16,3 +16,4 @@ perintah di atas selaian membuatkan file Model, juga untuk membuat controller, m
 - buat Route di ``` /route/fitur.php ``` (karena fitur menyediakan rute untuk). Route yang dibuat adalah get, post, put, dan delete. Buatkan _name route_ untuk masing-masing method index, store, update, destroy;
 - setiap route dipastikan melakukan _*Route Model Binding*_ dengan menuliskan nama modelnya untuk keperluan dependency
 - masih di file ``` app/Http/Controllers/FiturController.php ``` buatkan kode untuk method *index*, *store*, *update*, dan *destroy*
+

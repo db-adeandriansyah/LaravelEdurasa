@@ -6,14 +6,9 @@ import { useImmer } from "use-immer";
 
 export default function Kelas (props) {
         const {title,data} = props;
+        const [kelasroom,setKelasroom] = useImmer(data);
         const sidebar = sidebarSetting;
         const active = sidebar.findIndex(m=>m.routeName === route().current());
-
-        const [kelasroom,setKelasroom] = useImmer(data);
-        console.log('props di kelas.jsx', props);
-        console.log('zigy rout', route().current());
-        console.log('kelas, data', kelasroom,data);
-
 
         function handleOnAdd(newItemKelas){
             setKelasroom((draft)=>{
@@ -25,10 +20,15 @@ export default function Kelas (props) {
             setKelasroom((draft)=>{
                 const index = draft.findIndex(s=>s.id===currentItemKelas.id);
                 draft[index] = currentItemKelas;
+                draft.sort((a,b)=>a.tingkat.localeCompare(b.tingkat)|| parseInt(a.jenjang)-parseInt(b.jenjang));//a.tingkat - b.tingkat);
+            
             })
         }
         function handleOnDelete(currentItemKelas){
-
+            setKelasroom((draft)=>{
+                const index = draft.findIndex(s=>s.id===currentItemKelas.id);
+                draft.splice(index,1);
+            })
         }
 
         return (
