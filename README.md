@@ -17,3 +17,13 @@ perintah di atas selaian membuatkan file Model, juga untuk membuat controller, m
 - setiap route dipastikan melakukan _*Route Model Binding*_ dengan menuliskan nama modelnya untuk keperluan dependency
 - masih di file ``` app/Http/Controllers/FiturController.php ``` buatkan kode untuk method *index*, *store*, *update*, dan *destroy*
 
+### ReactJs
+- entry point dari fitur CRUD ini berada di file jsx yang berada di directory ``` resources/Js/Pages/*.jsx ```. Contohnya ``` Kelas.jsx ```
+- di dalam *Kelas.jsx* akan mengembalikan komponen CRUD yang dibuat dalam file jsx *KelasCrud.jsx* yang saya buat di directory ``` resources/Js/Pages/Manajemen/KelasCrud.jsx ```
+    - di *Kelas.jsx* terdapat beberapa function/method yang berfokus pada paradigma CRUD itu sendiri. Misalnya ``` handleOnAdd```, ```handleOnUpdate```, dan ```handleOnDelete```
+    - method ini dikirimkan ke komponen CRUD melalui propsnya. Jadi, nantinya di file *KelasCrud.jsx* akan dibuatkan nama props yang dikirimkan dari sini.
+- file *KelasCrud.jsx* hanya menerima props saja dan tidak dibuatkan method apapun. Karena nantinya method-method itu dijalankan di masing-masing kompenen yang dikembalikan. KelasCrud terdapat pada directory ``` resources/Js/Pages/Manajemen/KelasComponents ```. Tujuan pembuatan directory ini agar mudah pengelolaannya.
+    - *KelasCrud.jsx* hanya mengembalikan komponen dan tidak menyediakan method apapun di file ini
+    - terdapat 2 Komponen yang dikembalikan. Yaitu:
+        - Komponen button untuk menampilkan tombol dan Modal. Komponen dibuat di file *KelasButtonModal.jsx*
+        - komponen tabel untuk menampilkan data. Di dalam komponen ini dibuat file *KelasTabel*
