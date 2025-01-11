@@ -1,35 +1,34 @@
 import GuruLayout from "@/Layouts/GuruLayout";
 import sidebarSetting from "./PartialSettings/sidebarSetting";
 import KelasCrud from "./KelasComponents/KelasCrud";
-import { useImmer } from "use-immer";
+import {useImmerReducer } from "use-immer";
+import KelasReducer from "./KelasComponents/KelasReducer";
 
 
 export default function Kelas (props) {
         const {title,data} = props;
-        const [kelasroom,setKelasroom] = useImmer(data);
+        const [kelasroom,dispatch] = useImmerReducer(KelasReducer, data);
         const sidebar = sidebarSetting;
         const active = sidebar.findIndex(m=>m.routeName === route().current());
 
         function handleOnAdd(newItemKelas){
-            setKelasroom((draft)=>{
-                draft.push(newItemKelas);
-                // draft.sort((a,b)=>(a.rombel===""?true:a.rombel.localeCompare(b.rombel))&& a.jenjang-b.jenjang);//a.tingkat - b.tingkat);
-                draft.sort((a,b)=> a.rombel && a.rombel.localeCompare(b.rombel)).sort((a,b)=>a.jenjang - b.jenjang );//a.tingkat - b.tingkat);
+            dispatch({
+                type:'ADD',
+                data: newItemKelas
             });
         }
         function handleOnUpdate(currentItemKelas){
-            setKelasroom((draft)=>{
-                const index = draft.findIndex(s=>s.id===currentItemKelas.id);
-                draft[index] = currentItemKelas;
-                draft.sort((a,b)=> a.rombel && a.rombel.localeCompare(b.rombel)).sort((a,b)=>a.jenjang - b.jenjang );
-            
-            })
+            dispatch({
+                type:'UPDATE',
+                data: currentItemKelas
+            });
         }
         function handleOnDelete(currentItemKelas){
-            setKelasroom((draft)=>{
-                const index = draft.findIndex(s=>s.id===currentItemKelas.id);
-                draft.splice(index,1);
-            })
+            
+            dispatch({
+                type:'DELETE',
+                data: currentItemKelas
+            });
         }
         
         return (
