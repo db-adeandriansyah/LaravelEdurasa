@@ -18,12 +18,61 @@ perintah di atas selaian membuatkan file Model, juga untuk membuat controller, m
 - masih di file ``` app/Http/Controllers/FiturController.php ``` buatkan kode untuk method *index*, *store*, *update*, dan *destroy*
 
 ### ReactJs
-- entry point dari fitur CRUD ini berada di file jsx yang berada di directory ``` resources/Js/Pages/*.jsx ```. Contohnya ``` Kelas.jsx ```
-- di dalam *Kelas.jsx* akan mengembalikan komponen CRUD yang dibuat dalam file jsx *KelasCrud.jsx* yang saya buat di directory ``` resources/Js/Pages/Manajemen/KelasCrud.jsx ```
+- entry point dari fitur CRUD ini berada di file *Kelas.jsx* jsx yang berada di directory ``` resources/Js/Pages/Manajemen/*.jsx ```. Contohnya ``` resources/Js/Pages/Manajemen/Kelas.jsx ```
+- di dalam *Kelas.jsx* akan mengembalikan komponen CRUD yang dibuat dalam file jsx *KelasCrud.jsx* yang saya buat di directory ``` resources/Js/Pages/Manajemen/KelasComponents/KelasCrud.jsx ```
     - di *Kelas.jsx* terdapat beberapa function/method yang berfokus pada paradigma CRUD itu sendiri. Misalnya ``` handleOnAdd```, ```handleOnUpdate```, dan ```handleOnDelete```
     - method ini dikirimkan ke komponen CRUD melalui propsnya. Jadi, nantinya di file *KelasCrud.jsx* akan dibuatkan nama props yang dikirimkan dari sini.
-- file *KelasCrud.jsx* hanya menerima props saja dan tidak dibuatkan method apapun. Karena nantinya method-method itu dijalankan di masing-masing kompenen yang dikembalikan. KelasCrud terdapat pada directory ``` resources/Js/Pages/Manajemen/KelasComponents ```. Tujuan pembuatan directory ini agar mudah pengelolaannya.
+- file *KelasCrud.jsx* hanya menerima props saja dan tidak dibuatkan method apapun. Karena nantinya method-method itu dijalankan di masing-masing kompenen yang dikembalikan. KelasCrud terdapat pada directory ``` resources/Js/Pages/Manajemen/KelasComponents/ ```. Tujuan pembuatan directory ini agar mudah pengelolaannya.
     - *KelasCrud.jsx* hanya mengembalikan komponen dan tidak menyediakan method apapun di file ini
-    - terdapat 2 Komponen yang dikembalikan. Yaitu:
-        - Komponen button untuk menampilkan tombol dan Modal. Komponen dibuat di file *KelasButtonModal.jsx*
-        - komponen tabel untuk menampilkan data. Di dalam komponen ini dibuat file *KelasTabel*
+        - di kelas ini akan menyedikan satu data objek untuk diteruskan ke *KelasButtonModal.jsx* melalui props-nya. Tujuannya untuk membuat pengisian data baru.
+        -  terdapat 2 Komponen yang dikembalikan. Yaitu:
+            - Komponen button untuk menampilkan tombol dan Modal. Komponen dibuat di file *KelasButtonModal.jsx*
+            - komponen tabel untuk menampilkan data. Di dalam komponen ini dibuat file *KelasTabel*
+    - *KelasButtonModal.jsx*:
+        - akan mengembalikan komponen button dan komponen modal. Komponen Modal sudah disediakan Laravel-Breeze-ReactJs sendiri yang mengambil library *@handlesui reactJs*
+        - KelasButtonModal menyediakan berbagai props untuk diteruskan di dalam file ini
+        - KelasButtonModal untuk Tambah dan Edit disedikan dalam props ```action``` karena nantinya, data ini akan mengeksekusi proses pengiriman data ke server berdasarkan tipe action-nya. Misalnya action="add" maka saat submit form akan diarahkan ke _route name_ ```kelas.create``` / ```kelas.store```.
+    - *KelasTabel.jsx*:
+        - mengembalikan 2 komponen, yaitu:
+        - Tabel yang di dalamnya memanfaatkan looping list menggunakan ```.map``` function sehingga data yang diteruskna ke *KelasButtonModal.jsx* dapat dieksekusi di file ini
+        - *KelasButtonModal.jsx*. Komponen kelasButtonModal bertugas untuk pengeditan dan penghapusan data.
+    - *Modal.jsx* :
+        - adalah pengembelian salah satu dari file *KelasButtonModal.jsx* yang dikembangkan dari ```@handlesUi```.
+        - berada di directory ``` resources/Js/Pages/Components/Modal.jsx
+        - bertugas untuk menampilkan form dengan isian format formnya diisikan sendiri melalui props children
+    - *KelasForm.jsx*:
+        - form yang diisikan sebagai *children* pada *Modal.jsx*
+        - berisikan/mengembalikan tag form yang berisikan *KelasComponentsSelect.jsx*
+
+## Pemahaman/Penerapan
+### Laravel
+- *fitur.php*:
+    - berisi rute untuk fitur aplikasi
+    - _*class static method*_ / _*verb request*_ yang dibuat hanya bertugas untuk menerima request berupa permintaan pengiriman dan penambilan data
+    - tidak berisi route yang berisi menampilkan halaman create dan edit. Sebab halaman ini dibuat dengan Modal oleh ReactJs
+    - Menerapkan *Route Model Binding* disetiap route yang membutuhkan _wildcard_ pada url-nya.
+    - sangat disarankan membuat _*name route*_ menggunakan method name dan menamai setiap route yang dibuat
+    - *name route* ini dapat dipanggil melalui helper function pada frontend
+- Artisan:
+    - buat controller:
+    ```
+    php artisan make:modal Classroom -a
+    ```
+    - artisan ini menghasilan beberapa file:
+        - Modal Classroom
+        - Controller ClassroomController dan include binding-nya
+        - Request: StoreclassromRequest dan UpdateclassroomRequest
+        - Policies: ClassroomPolicy
+        - migration: <timestamp>create_classrooms_table.php
+### ReactJs
+    - helper route yang dibuat oleh ziggy, mirip helper route pada bawaan Laravel
+    - menerapkan:
+        - useState
+        - useImmer
+        - useForm
+        - useEffect
+        - axios
+        
+    
+
+

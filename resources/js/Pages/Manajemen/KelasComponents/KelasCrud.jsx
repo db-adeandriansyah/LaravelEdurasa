@@ -8,7 +8,7 @@ export default function KelasCrud({...props}){
         klasifikasi:'',
         jenjang:'',
         tingkat:'',
-        rombel:''
+        rombel:null
     }
     
     return(

@@ -16,7 +16,7 @@ class ClassroomController extends Controller
      */
     public function index()
     {
-        $classroom = Classroom::all();
+        $classroom = Classroom::orderBy('tingkat')->get();
         return Inertia::render('Manajemen/Kelas',['title'=>'Setting','data'=>$classroom]);
     }
 
@@ -72,6 +72,9 @@ class ClassroomController extends Controller
      */
     public function destroy(Classroom $classroom)
     {
-        //
+        $classroom->delete();
+        return response()->json([
+            'data' =>$classroom
+        ]);
     }
 }

@@ -7,15 +7,18 @@ import DangerButton from "@/Components/DangerButton";
 
 export default function KelasFormDelete({kelas, onClose,currentDataForm, onChangeData,...props}){
     const {data, setData,reset} = useForm(currentDataForm);
-    console.log('currentDataForm', kelas, currentDataForm);
+    
     
 
     const handleSubmit = (e)=>{
         e.preventDefault();
-        
-        onChangeData(data);
-        reset();
-        onClose();
+        axios.delete(route('kelas.delete',data)).then(m=>{
+            
+            onChangeData(data);
+            reset();
+            onClose();
+
+        });
         
 
 

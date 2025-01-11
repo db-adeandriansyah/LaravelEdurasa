@@ -1,7 +1,7 @@
 import KelasButtonModal from "./KelasButtonModal"
 
 export default function KelasTabel({kelas,parentOnUpdate,parentOnDelete}){
-    console.log('kelas dari KelasTabel',kelas)
+        
     return(
         <div className="mt-2 overflow-x-auto">
             <table className="table-auto w-full">

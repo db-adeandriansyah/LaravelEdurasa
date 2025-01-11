@@ -13,14 +13,15 @@ export default function Kelas (props) {
         function handleOnAdd(newItemKelas){
             setKelasroom((draft)=>{
                 draft.push(newItemKelas);
-                draft.sort((a,b)=>a.tingkat.localeCompare(b.tingkat)|| parseInt(a.jenjang)-parseInt(b.jenjang));//a.tingkat - b.tingkat);
+                // draft.sort((a,b)=>(a.rombel===""?true:a.rombel.localeCompare(b.rombel))&& a.jenjang-b.jenjang);//a.tingkat - b.tingkat);
+                draft.sort((a,b)=> a.rombel && a.rombel.localeCompare(b.rombel)).sort((a,b)=>a.jenjang - b.jenjang );//a.tingkat - b.tingkat);
             });
         }
         function handleOnUpdate(currentItemKelas){
             setKelasroom((draft)=>{
                 const index = draft.findIndex(s=>s.id===currentItemKelas.id);
                 draft[index] = currentItemKelas;
-                draft.sort((a,b)=>a.tingkat.localeCompare(b.tingkat)|| parseInt(a.jenjang)-parseInt(b.jenjang));//a.tingkat - b.tingkat);
+                draft.sort((a,b)=> a.rombel && a.rombel.localeCompare(b.rombel)).sort((a,b)=>a.jenjang - b.jenjang );
             
             })
         }
@@ -30,7 +31,7 @@ export default function Kelas (props) {
                 draft.splice(index,1);
             })
         }
-
+        
         return (
             <GuruLayout 
                 title ={title}
@@ -47,7 +48,7 @@ export default function Kelas (props) {
                         parentOnUpdate ={handleOnUpdate}
                         parentOnDelete = {handleOnDelete}
                     />
-                    <div className="border rounded w-full mt-2">Test</div>
+                    
                 </div>
             </GuruLayout>
             

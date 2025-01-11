@@ -6,7 +6,7 @@ import { useForm } from "@inertiajs/react";
 import KelasValidate from "./KelasValildate";
 
 export default function KelasForm({kelas, action, onClose,currentDataForm, onChangeData,...props}){
-    const {data, setData,reset} = useForm(currentDataForm);
+    const {data, setData,processing, reset} = useForm(currentDataForm);
     const dataKlasifikasi = getOpsi('klasifikasi');
     const dataTingkat = getOpsi('tingkat');
     const dataJenjang = getOpsi('jenjang');
@@ -22,11 +22,10 @@ export default function KelasForm({kelas, action, onClose,currentDataForm, onCha
     
     useEffect(()=>{
         if(loadAdd){
-            console.log('cophyan data useEffefct',action, data);
+            
             if(action === 'add'){
                 axios.post(route('kelas.store'),data).then(m=>{
-                    console.log(m);
-                    onChangeData(data);
+                    onChangeData(m.data.data);//m.data.data
                     reset();
                     onClose();
                     
@@ -49,9 +48,9 @@ export default function KelasForm({kelas, action, onClose,currentDataForm, onCha
                       console.log(error.config);
                 })
             }else if(action === 'edit'){
+                //axios.put(route('setting.update',data),data).then(m=>{
                 axios.put(route('kelas.update',data),data).then(m=>{
-                    console.log(m);
-                    onChangeData(data);
+                    onChangeData(m.data.data);
                     reset();
                     onClose();
                     
@@ -92,7 +91,6 @@ export default function KelasForm({kelas, action, onClose,currentDataForm, onCha
         setData('jenjang' ,arrayJenjang[0].value);
         setMassageValidate(false);
         setMassageValidate(false);
-        console.log('data handleKlasifikasi', data);
     }
     
     const handleTingkat=(item)=>{
@@ -103,10 +101,10 @@ export default function KelasForm({kelas, action, onClose,currentDataForm, onCha
         
         
         
-        setData('tingkat' , selectedTingkat.value);
+        setData('tingkat' , item.value);
         setMassageValidate(false);
         setMassageValidate(false);
-        console.log('data handleTingkat',selectedKlasifikasi, data);
+        
     }
     const handleJenjang = (item)=>{
 
@@ -114,21 +112,19 @@ export default function KelasForm({kelas, action, onClose,currentDataForm, onCha
         setSelectedJenjang(item);
         
         setData('jenjang' , item.value);
-        console.log('cek update dataForm by handleJenjang',item.value,data);
         setMassageValidate(false);
     }
     const handleInput = (e)=>{
         setRombel(e.target.value);
         setData('rombel',e.target.value);
         setMassageValidate(false);
-        console.log(e.target.value, rombel,data);
+        
     }
 
     function handleSubmit(e){
         e.preventDefault();
-        console.log('handleSubmit',data);
+        
         if(isDataValid(data)){
-            console.log('isValidate', isDataValid(data),data);
             setLoadAdd(true);
             setMassageValidate(false);
         }else{
@@ -156,13 +152,14 @@ export default function KelasForm({kelas, action, onClose,currentDataForm, onCha
     }
     function isDataValid(dataCreate){
         const isEmpty = (dataCreate.klasifikasi !=="" && dataCreate.tingkat !==""  && dataCreate.jenjang !=="" );
+        const isExist =  (kelas && kelas.filter(s=>s.klasifikasi === dataCreate.klasifikasi && 
+            s.tingkat === dataCreate.tingkat &&
+            s.jenjang === dataCreate.jenjang &&
+            s.rombel === dataCreate.rombel
+        ).length === 0)
         
         if(isEmpty){
-            return kelas && kelas.filter(s=>s.klasifikasi === dataCreate.klasifikasi && 
-                                s.tingkat === dataCreate.tingkat &&
-                                s.jenjang == dataCreate.jenjang &&
-                                s.rombel === dataCreate.rombel
-                            ).length === 0
+            return isExist;
         }
         return isEmpty;
     }
@@ -195,7 +192,7 @@ export default function KelasForm({kelas, action, onClose,currentDataForm, onCha
 
                     </div>
                     <div className="mt-3 flex justify-end gap-2">
-                        <button className="border px-2 rounded-lg mx-2" type="submit">Simpan</button>
+                        <button className="border px-2 rounded-lg mx-2" type="submit">{processing? 'Dalam proses ':''}Simpan</button>
                         <button className="border px-2 rounded-lg mx-2" onClick={onClose} type="button">Batal</button>
                     </div>
                 </div>
