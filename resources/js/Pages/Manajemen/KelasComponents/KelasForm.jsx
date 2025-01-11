@@ -1,12 +1,13 @@
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import KelasComponentSelect from "./KelasComponentSelect";
 import DATA_SETTING_KELAS from "./KelasData";
 import { useForm } from "@inertiajs/react";
-import KelasValidate from "./KelasValildate";
 
-export default function KelasForm({kelas, action, onClose,currentDataForm, onChangeData,...props}){
-    const {data, setData,processing, reset} = useForm(currentDataForm);
+import { KelasContex } from "./KelasContext";
+
+export default function KelasForm({action, onClose,currentDataForm, ...props}){
+    const {data, setData, reset} = useForm(currentDataForm);
     const dataKlasifikasi = getOpsi('klasifikasi');
     const dataTingkat = getOpsi('tingkat');
     const dataJenjang = getOpsi('jenjang');
@@ -18,14 +19,17 @@ export default function KelasForm({kelas, action, onClose,currentDataForm, onCha
     const [selectedJenjang, setSelectedJenjang] = useState(objekFirstData.jenjang);
     const [rombel, setRombel]=useState(data.rombel)
     const [massageValidate, setMassageValidate] = useState(false);
+    const inputform= useRef(null)
     const [loadAdd, setLoadAdd] = useState(false);
-    
+    const {kelasroom,handleOnAdd,handleOnUpdate} = useContext(KelasContex);
+
     useEffect(()=>{
         if(loadAdd){
             
             if(action === 'add'){
+                
                 axios.post(route('kelas.store'),data).then(m=>{
-                    onChangeData(m.data.data);//m.data.data
+                    handleOnAdd(m.data.data);//m.data.data
                     reset();
                     onClose();
                     
@@ -50,7 +54,7 @@ export default function KelasForm({kelas, action, onClose,currentDataForm, onCha
             }else if(action === 'edit'){
                 //axios.put(route('setting.update',data),data).then(m=>{
                 axios.put(route('kelas.update',data),data).then(m=>{
-                    onChangeData(m.data.data);
+                    handleOnUpdate(m.data.data);
                     reset();
                     onClose();
                     
@@ -89,8 +93,10 @@ export default function KelasForm({kelas, action, onClose,currentDataForm, onCha
         setData('klasifikasi' ,item.value);
         setData('tingkat' ,arrayTingkat[0].value);
         setData('jenjang' ,arrayJenjang[0].value);
+        
         setMassageValidate(false);
         setMassageValidate(false);
+        console.log('useRef', inputform.current.focus())
     }
     
     const handleTingkat=(item)=>{
@@ -115,15 +121,16 @@ export default function KelasForm({kelas, action, onClose,currentDataForm, onCha
         setMassageValidate(false);
     }
     const handleInput = (e)=>{
-        setRombel(e.target.value);
         setData('rombel',e.target.value);
+        setRombel(e.target.value);
         setMassageValidate(false);
         
+        console.log(data,rombel,e.target.value);
     }
 
     function handleSubmit(e){
         e.preventDefault();
-        
+        console.log('handlesubmet', kelasroom)
         if(isDataValid(data)){
             setLoadAdd(true);
             setMassageValidate(false);
@@ -152,10 +159,10 @@ export default function KelasForm({kelas, action, onClose,currentDataForm, onCha
     }
     function isDataValid(dataCreate){
         const isEmpty = (dataCreate.klasifikasi !=="" && dataCreate.tingkat !==""  && dataCreate.jenjang !=="" );
-        const isExist =  (kelas && kelas.filter(s=>s.klasifikasi === dataCreate.klasifikasi && 
+        const isExist =  (kelasroom && kelasroom.filter(s=>s.klasifikasi === dataCreate.klasifikasi && 
             s.tingkat === dataCreate.tingkat &&
             s.jenjang === dataCreate.jenjang &&
-            s.rombel === dataCreate.rombel
+            s.rombel === dataCreate.rombel 
         ).length === 0)
         
         if(isEmpty){
@@ -178,6 +185,7 @@ export default function KelasForm({kelas, action, onClose,currentDataForm, onCha
                     selectedJenjang ={selectedJenjang}
                     handleInput = {handleInput}
                     rombel={rombel}
+                    refInput = {inputform}
                 />
                 <div className="border w-full flex flex-col justify-between p-3">
                     <div>
@@ -186,13 +194,21 @@ export default function KelasForm({kelas, action, onClose,currentDataForm, onCha
 
                             <p className="text-red-500 text-sm">Data Tidak valid, cek pilihan dan isian Anda. Periksa juga jika data sudah diinput.</p>
                         ):(
-                            null
+                            <ul>
+                                
+                                        <li>Klasifikasi = {data.klasifikasi}</li>
+                                        <li>tingkat = {data.tingkat}</li>
+                                        <li>Jenjang = {data.jenjang}</li>
+                                        <li>Rombel = {data.rombel===""||data.rombel===null?"Tanpa ada nama rombel":data.rombel}</li>
+                                
+                            </ul>
+
                         )
                         }
 
                     </div>
                     <div className="mt-3 flex justify-end gap-2">
-                        <button className="border px-2 rounded-lg mx-2" type="submit">{processing? 'Dalam proses ':''}Simpan</button>
+                        <button className="border px-2 rounded-lg mx-2" disabled={loadAdd} type="submit">{loadAdd? 'Dalam proses ':''}Simpan</button>
                         <button className="border px-2 rounded-lg mx-2" onClick={onClose} type="button">Batal</button>
                     </div>
                 </div>

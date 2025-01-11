@@ -17,7 +17,8 @@ export default function KelasComponentSelect({...props}){
             selectedJenjang,
             handleJenjang,
             handleInput,
-            rombel
+            rombel,
+            refInput
         } = props;
     
     return(
@@ -42,7 +43,7 @@ export default function KelasComponentSelect({...props}){
                 onChangeSelected={handleJenjang}
             />
             <InputLabel htmlFor="final-rombel" value="Rombel"/>
-            <TextInput id="final-rombel" type="text" value={rombel||""} onChange={handleInput} className="text-[10px] w-full" placeholder='Contoh: A, B, atau lainnya'/>
+            <TextInput ref={refInput} id="final-rombel" type="text" value={rombel||""} onChange={handleInput} className="text-[10px] w-full" placeholder='Contoh: A, B, atau lainnya'/>
         </div>
     )
 }

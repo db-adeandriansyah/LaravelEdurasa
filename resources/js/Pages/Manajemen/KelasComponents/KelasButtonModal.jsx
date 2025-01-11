@@ -6,10 +6,10 @@ import KelasFormDelete from "./KelasFormDelete";
 
 export default function KelasButtonModal({
     classNameButton='bg-green-600',
-    kelas,
     children,
     titleModal = 'Judul Modal belum dibuat',
     typeContent,
+    
     currentData,
     changeData,
     action,
@@ -34,14 +34,14 @@ export default function KelasButtonModal({
                 </div>
                 {typeContent==='form'?(
                     <KelasForm 
-                        kelas={kelas} 
+                        
                         action={action}
                         currentDataForm={currentData} 
-                        onChangeData={changeData} 
+                        
                         onClose={closeModal}/>
 
                 ):(
-                    <KelasFormDelete kelas={kelas} currentDataForm={currentData} onChangeData={changeData} onClose={closeModal}/>
+                    <KelasFormDelete currentDataForm={currentData}  onClose={closeModal}/>
 
                 )}
             </Modal>

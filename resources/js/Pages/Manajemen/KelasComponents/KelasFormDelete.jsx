@@ -1,20 +1,19 @@
 
-import { useState } from "react";
-import KelasComponentSelect from "./KelasComponentSelect";
-import DATA_SETTING_KELAS from "./KelasData";
+import { useContext } from "react";
 import { useForm } from "@inertiajs/react";
 import DangerButton from "@/Components/DangerButton";
+import { KelasContex } from "./KelasContext";
 
-export default function KelasFormDelete({kelas, onClose,currentDataForm, onChangeData,...props}){
-    const {data, setData,reset} = useForm(currentDataForm);
-    
+export default function KelasFormDelete({onClose,currentDataForm, ...props}){
+    const {data, reset} = useForm(currentDataForm);
+    const {handleOnDelete} = useContext(KelasContex);
     
 
     const handleSubmit = (e)=>{
         e.preventDefault();
         axios.delete(route('kelas.delete',data)).then(m=>{
             
-            onChangeData(data);
+            handleOnDelete(m.data.data);
             reset();
             onClose();
 
