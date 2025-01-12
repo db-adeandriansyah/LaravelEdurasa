@@ -26,6 +26,12 @@ export default function KelasFormDelete({onClose,currentDataForm, ...props}){
     return(
         <form onSubmit={handleSubmit} className="mx-2 p-3">
             <p>Anda yakin ingin menghapus data ini?</p>
+            <ul>
+                <li>Klasifikasi = {data.klasifikasi}</li>
+                <li>tingkat = {data.tingkat}</li>
+                <li>Jenjang = {data.jenjang}</li>
+                <li>Rombel = {data.rombel===""||data.rombel===null?"Tanpa ada nama rombel":data.rombel}</li>
+            </ul>
             <DangerButton type="submit">Hapus</DangerButton>
             <button className="border bg-green-400 rounded-full px-2 me-2" type="button" onClick={onClose}>Batal</button>
                                         
