@@ -23,7 +23,7 @@ export default function KelasButtonModal({
     function closeModal(){
         setShowModal(false);
     }
-    
+
     return(
         <>
             <button onClick={handleClickButton} className={`border ${classNameButton} rounded px-2 text-white font-bold`}>{children}</button>

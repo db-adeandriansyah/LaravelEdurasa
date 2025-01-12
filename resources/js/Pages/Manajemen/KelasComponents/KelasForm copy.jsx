@@ -5,7 +5,6 @@ import DATA_SETTING_KELAS from "./KelasData";
 import { useForm } from "@inertiajs/react";
 
 import { KelasContex } from "./KelasContext";
-import { kelasFormRequest } from "./KelasFormRequest";
 
 export default function KelasForm({action, onClose,currentDataForm, ...props}){
     const {data, setData, reset} = useForm(currentDataForm);
@@ -22,11 +21,62 @@ export default function KelasForm({action, onClose,currentDataForm, ...props}){
     const [massageValidate, setMassageValidate] = useState(false);
     const inputform= useRef(null)
     const [loadAdd, setLoadAdd] = useState(false);
-    const {kelasroom,handleOnAdd, handleOnUpdate} = useContext(KelasContex);
+    const {kelasroom,handleOnAdd,handleOnUpdate} = useContext(KelasContex);
 
     useEffect(()=>{
         if(loadAdd){
-            kelasFormRequest(data,action,handleOnAdd, handleOnUpdate,reset,onClose)
+            
+            if(action === 'add'){
+                
+                axios.post(route('kelas.store'),data).then(m=>{
+                    handleOnAdd(m.data.data);//m.data.data
+                    reset();
+                    onClose();
+                    
+                }).catch((error)=>{
+                    if (error.response) {
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                      } else if (error.request) {
+                        // The request was made but no response was received
+                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                        // http.ClientRequest in node.js
+                        console.log(error.request);
+                      } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error', error.message);
+                      }
+                      console.log(error.config);
+                })
+            }else if(action === 'edit'){
+                //axios.put(route('setting.update',data),data).then(m=>{
+                axios.put(route('kelas.update',data),data).then(m=>{
+                    handleOnUpdate(m.data.data);
+                    reset();
+                    onClose();
+                    
+                }).catch((error)=>{
+                    if (error.response) {
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                      } else if (error.request) {
+                        // The request was made but no response was received
+                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                        // http.ClientRequest in node.js
+                        console.log(error.request);
+                      } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error', error.message);
+                      }
+                      console.log(error.config);
+                })
+            }
         }
     },[loadAdd])
     
@@ -46,7 +96,7 @@ export default function KelasForm({action, onClose,currentDataForm, ...props}){
         
         setMassageValidate(false);
         setMassageValidate(false);
-        
+        console.log('useRef', inputform.current.focus())
     }
     
     const handleTingkat=(item)=>{
@@ -56,7 +106,6 @@ export default function KelasForm({action, onClose,currentDataForm, ...props}){
         setMassageValidate(false);
         setMassageValidate(false);
     }
-    
     const handleJenjang = (item)=>{
 
         
@@ -65,16 +114,17 @@ export default function KelasForm({action, onClose,currentDataForm, ...props}){
         setData('jenjang' , item.value);
         setMassageValidate(false);
     }
-    
     const handleInput = (e)=>{
-        setRombel(e);
-        setData('rombel',(e.replace(/\s+/,'')===""||e===""||e === null)?null:e);
+        setData('rombel',e.target.value);
+        setRombel(e.target.value);
         setMassageValidate(false);
+        
+        console.log(data,rombel,e.target.value);
     }
 
     function handleSubmit(e){
         e.preventDefault();
-
+        console.log('handlesubmet', kelasroom)
         if(isDataValid(data)){
             setLoadAdd(true);
             setMassageValidate(false);
@@ -84,8 +134,7 @@ export default function KelasForm({action, onClose,currentDataForm, ...props}){
     };
 
     function getOpsi(kategori){
-        // return DATA_SETTING_KELAS.filter(s=>s.opsi === kategori)[0]['data'];
-        return DATA_SETTING_KELAS.find(s=>s.opsi === kategori)?.data||[];
+        return DATA_SETTING_KELAS.filter(s=>s.opsi === kategori)[0]['data'];
     }
     
     function getFirstOpsiFromParent(objekParent){
@@ -102,18 +151,19 @@ export default function KelasForm({action, onClose,currentDataForm, ...props}){
         }
 
     }
-    
     function isDataValid(dataCreate){
         const isEmpty = (dataCreate.klasifikasi !=="" && dataCreate.tingkat !==""  && dataCreate.jenjang !=="" );
-        const isExist =  (kelasroom.filter(s=>s.klasifikasi === dataCreate.klasifikasi && 
+        const isExist =  (kelasroom && kelasroom.filter(s=>s.klasifikasi === dataCreate.klasifikasi && 
             s.tingkat === dataCreate.tingkat &&
             s.jenjang === dataCreate.jenjang &&
-            s.rombel === dataCreate.rombel
+            s.rombel === dataCreate.rombel 
         ).length === 0)
         
-        return isEmpty && isExist
+        if(isEmpty){
+            return isExist;
+        }
+        return isEmpty;
     }
-    
     return(
         <form onSubmit={handleSubmit} className="mx-2 p-3">
             <div className="flex flex-col md:flex-row gap-2">
